@@ -1,0 +1,124 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account | Student Task Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .auth-page {
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            padding: 24px;
+            background: linear-gradient(135deg, #eee9ff, #f8f7ff, #e7eaff);
+        }
+        .auth-card {
+            width: 100%;
+            max-width: 420px;
+            padding: 36px;
+            background: white;
+            border-radius: 22px;
+            box-shadow: 0 16px 50px rgba(65, 48, 120, .12);
+        }
+        .auth-logo {
+            width: 54px;
+            height: 54px;
+            display: grid;
+            place-items: center;
+            margin: 0 auto 16px;
+            background: #eee9ff;
+            color: #6b4ce6;
+            border-radius: 16px;
+            font-size: 27px;
+        }
+        .auth-card h1, .auth-card .subtitle { text-align: center; }
+        .auth-card h1 { margin-bottom: 8px; }
+        .auth-card .subtitle { color: #77748a; margin-bottom: 26px; }
+        .auth-form { display: grid; gap: 15px; }
+        .auth-form label { display: block; margin-bottom: 7px; font-weight: 600; }
+        .auth-form input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #dedbea;
+            border-radius: 10px;
+            font: inherit;
+            box-sizing: border-box;
+        }
+        .auth-form input:focus {
+            outline: 2px solid #b9a8ff;
+            border-color: #7959ec;
+        }
+        .auth-button {
+            width: 100%;
+            padding: 13px;
+            border: 0;
+            border-radius: 10px;
+            background: #6b4ce6;
+            color: white;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .auth-button:hover { background: #5839d0; }
+        .auth-footer { text-align: center; margin-top: 22px; }
+        .auth-footer a { color: #6748dd; font-weight: 600; }
+        .flash-message {
+            padding: 10px;
+            margin-bottom: 14px;
+            border-radius: 8px;
+            background: #fff0f0;
+            color: #a52828;
+        }
+        .flash-success { background: #eaf8ee; color: #206b37; }
+        .password-hint { color: #77748a; font-size: 13px; margin-top: 6px; }
+    </style>
+</head>
+<body>
+    <main class="auth-page">
+        <section class="auth-card">
+            <div class="auth-logo">＋</div>
+            <h1>Create your account</h1>
+            <p class="subtitle">Start organizing your studies today.</p>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% for category, message in messages %}
+                    <div class="flash-message {% if category == 'success' %}flash-success{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endwith %}
+
+            <form class="auth-form" method="POST" action="{{ url_for('register') }}">
+                <div>
+                    <label for="name">Full name</label>
+                    <input type="text" id="name" name="name"
+                           placeholder="Enter your name"
+                           autocomplete="name" maxlength="100" required>
+                </div>
+                <div>
+                    <label for="email">Email address</label>
+                    <input type="email" id="email" name="email"
+                           placeholder="you@example.com"
+                           autocomplete="email" maxlength="254" required>
+                </div>
+                <div>
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password"
+                           placeholder="At least 8 characters"
+                           autocomplete="new-password" minlength="8"
+                           required>
+                    <p class="password-hint">Use at least 8 characters.</p>
+                </div>
+                <button class="auth-button" type="submit">Create Account</button>
+            </form>
+
+            <p class="auth-footer">
+                Already have an account?
+                <a href="{{ url_for('login') }}">Log in</a>
+            </p>
+        </section>
+    </main>
+</body>
+</html>
